@@ -1,0 +1,221 @@
+<style>	
+#map {
+	width:100%;
+	height:800px;
+	color: #CCC;
+	background: #EFEFEF;
+}
+span.loading {
+	display: block;
+	text-align: center;
+	font: 300 italic 72px/400px "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
+}
+#footer, #footer_utilities, #backgroundToggle, #user_bar, #admin_bar, #socialButtons, #secondary_navigation, #gam_pwchange { display:none; }
+
+body { padding-top: 60px; }
+#branding { max-height:45px; }
+</style>
+
+<div id="category_1" class="category_block block_wrap">
+	<div class="border"><h3 class="maintitle" style="padding:5px;">
+		<div id="">
+			GTA V World Map created by Zslash aKa Martin Floden - <a href="http://www.lifeinsanandreas.com">www.lifeinsanandreas.com</a> All maps rendered in 20K res using <a href="https://github.com/bramus/photoshop-google-maps-tile-cutter/">photoshop-google-maps-tile-cutter</a>
+			<br>
+			Please don't re-publish as is. However you can share, modify and use this any way you want!<br>
+			Give credits if you feel like it :P Altho not required to!
+			<br><br>
+        	<img src="2hand.png">
+            <input onclick="clearMarkers();" type=button value="Hide Markers">
+      		<input onclick="showMarkers();" type=button value="Show All Markers">
+        </div>
+        <div id="panel">Loading... Please Wait!</div>
+        </h3>
+        <div class="ipsBox table_wrap removeDefault">
+			<div class="ipsBox_container" style="padding:10px;">
+        		<div id="map"><span class="loading">loading tiles...</span></div>
+           </div>
+       </div> 
+	</div>
+</div>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script>
+var repeatOnXAxis = false; // Do we need to repeat the image on the X-axis? Most likely you'll want to set this to false
+function getNormalizedCoord(coord, zoom) {
+	if (!repeatOnXAxis) return coord;
+	var y = coord.y;
+	var x = coord.x;
+	// tile range in one direction range is dependent on zoom level
+	// 0 = 1 tile, 1 = 2 tiles, 2 = 4 tiles, 3 = 8 tiles, etc
+	var tileRange = 1 << zoom;
+	// don't repeat across Y-axis (vertically)
+	if (y < 0 || y >= tileRange) {
+		return null;
+	}
+	// repeat across X-axis
+	if (x < 0 || x >= tileRange) {
+		x = (x % tileRange + tileRange) % tileRange;
+	}
+	return {
+		x: x,
+		y: y
+	};
+}
+
+var map;
+var static_markers = [];
+
+// Define our custom map type
+var satellite = new google.maps.ImageMapType({
+	getTileUrl: function(coord, zoom) {
+		var normalizedCoord = getNormalizedCoord(coord, zoom);
+		if(normalizedCoord && (normalizedCoord.x < Math.pow(2, zoom)) && (normalizedCoord.x > -1) && (normalizedCoord.y < Math.pow(2, zoom)) && (normalizedCoord.y > -1)) {
+			return 'Satellite/' + zoom + '_' + normalizedCoord.x + '_' + normalizedCoord.y + '.jpg';
+		} else {
+			return 'Satellite/empty.jpg';
+		}
+	},
+	tileSize: new google.maps.Size(256, 256),
+	maxZoom: 7,
+	name: 'Satellite'
+});
+var roadmap = new google.maps.ImageMapType({
+	getTileUrl: function(coord, zoom) {
+		var normalizedCoord = getNormalizedCoord(coord, zoom);
+		if(normalizedCoord && (normalizedCoord.x < Math.pow(2, zoom)) && (normalizedCoord.x > -1) && (normalizedCoord.y < Math.pow(2, zoom)) && (normalizedCoord.y > -1)) {
+			return 'Roadmap/' + zoom + '_' + normalizedCoord.x + '_' + normalizedCoord.y + '.jpg';
+		} else {
+			return 'Roadmap/empty.jpg';
+		}
+	},
+	tileSize: new google.maps.Size(256, 256),
+	maxZoom: 7,
+	name: 'Roadmap'
+});
+var atlas = new google.maps.ImageMapType({
+	getTileUrl: function(coord, zoom) {
+		var normalizedCoord = getNormalizedCoord(coord, zoom);
+		if(normalizedCoord && (normalizedCoord.x < Math.pow(2, zoom)) && (normalizedCoord.x > -1) && (normalizedCoord.y < Math.pow(2, zoom)) && (normalizedCoord.y > -1)) {
+			return 'Atlas/' + zoom + '_' + normalizedCoord.x + '_' + normalizedCoord.y + '.jpg';
+		} else {
+			return 'Atlas/empty.jpg';
+		}
+	},
+	tileSize: new google.maps.Size(256, 256),
+	maxZoom: 7,
+	name: 'Atlas'
+});
+
+// Basic options for our map
+var myOptions = {
+	center: new google.maps.LatLng(0, 0),
+	zoom: 2,
+	minZoom: 0,
+	streetViewControl: false,
+	mapTypeControl: true,
+	mapTypeControlOptions: {
+		mapTypeIds: ["gta_satellite", "gta_roadmap", "gta_atlas"]
+	}
+};
+
+// Init the map and hook our custom map type to it
+map = new google.maps.Map(document.getElementById('map'), myOptions);
+map.mapTypes.set('gta_satellite', satellite);
+map.mapTypes.set('gta_roadmap', roadmap);
+map.mapTypes.set('gta_atlas', atlas);
+map.setMapTypeId('gta_satellite');
+
+
+</script>
+
+<script>
+/*
+// Add map makers!
+var contentString = '<div id="content">'+
+  '<div id="marker_infobox">'+
+  'this is a test'+
+  '</div>'+
+  '</div>';
+  
+var infowindow = new google.maps.InfoWindow({
+	content: contentString
+});
+
+var myLatlng = new google.maps.LatLng(0.0,0.0);
+
+var marker = new google.maps.Marker({
+	position: myLatlng,
+	map: map,
+	title:"Hello World!",
+	optimized: false
+});
+
+google.maps.event.addListener(marker, 'click', function() {
+	infowindow.open(map,marker);
+});
+*/
+</script>
+<script>
+// Sets the map on all markers in the array.
+	function setAllMap(map) {
+	  for (var i = 0; i < static_markers.length; i++) {
+		static_markers[i].setMap(map);
+	  }
+	}
+	
+	// Removes the markers from the map, but keeps them in the array.
+	function clearMarkers() {
+	  setAllMap(null);
+	}
+	
+	// Shows any markers currently in the array.
+	function showMarkers() {
+	  setAllMap(map);
+	}
+	
+window.onload = function() { //make sure we start adding AFTER everythingthing else has loaded...
+	// Add map makers!
+	// marker types: static_markers
+	
+	
+	var contentString = '<div id="content">'+
+	  '<div id="marker_infobox">'+
+	  'this is a test'+
+	  '</div>'+
+	  '</div>';
+	/*  
+	var infowindow = new google.maps.InfoWindow({
+		content: contentString
+	});*/
+	
+	function addMarker(location, type, content_html, icon) {
+	  var marker = new google.maps.Marker({
+		position: location,
+		map: map,
+		icon: icon+'.png',
+		optimized: false //to prevent it from repeating on the x axis.
+	  });
+	  if(type == "static") { static_markers.push(marker); }
+	  	
+		var infowindow = new google.maps.InfoWindow({
+			content: content_html
+		});
+		
+		google.maps.event.addListener(marker, 'click', function() {
+			infowindow.open(map,marker);
+		});
+	} 
+	 
+	//add markers test.
+	addMarker(new google.maps.LatLng(-62.7,-1.2), "static", 'Bus Station', '2hand');
+	addMarker(new google.maps.LatLng(-66.1,-6.1), "static", 'ATM', '2hand');
+	/*
+	google.maps.event.addListener(marker, 'click', function() {
+		infowindow.open(map,marker);
+	});*/
+	
+	google.maps.event.addListener(map, 'mousemove', function(event) {
+          document.getElementById('panel').innerHTML =
+             'DEBUG: Geographical Coordinates: ' + event.latLng.lat() + ', ' + event.latLng.lng();
+      });
+}
+</script>

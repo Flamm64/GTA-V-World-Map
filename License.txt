@@ -1,0 +1,5 @@
+GTA V World Map created by Zslash aKa Martin Floden - http://www.lifeinsanandreas.com
+All maps rendered in 20K res using https://github.com/bramus/photoshop-google-maps-tile-cutter/
+
+Please don't re-publish as is. However you can share, modify and use this any way you want!
+Give credits if you feel like it :P Altho not required to!
