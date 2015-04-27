@@ -1,7 +1,7 @@
 <style>	
 #map {
 	width:100%;
-	height:800px;
+	height:750px;
 	color: #CCC;
 	background: #EFEFEF;
 }
@@ -10,15 +10,15 @@ span.loading {
 	text-align: center;
 	font: 300 italic 72px/400px "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
 }
-#footer, #footer_utilities, #backgroundToggle, #user_bar, #admin_bar, #socialButtons, #secondary_navigation, #gam_pwchange { display:none; }
 
-body { padding-top: 60px; }
-#branding { max-height:45px; }
+#branding {
+	max-height:45px; 
+}
 </style>
 
 <div id="category_1" class="category_block block_wrap">
 	<div class="border"><h3 class="maintitle" style="padding:5px;">
-		<div id="">
+		<div>
 			GTA V World Map created by Zslash aKa Martin Floden - <a href="http://www.lifeinsanandreas.com">www.lifeinsanandreas.com</a> All maps rendered in 20K res using <a href="https://github.com/bramus/photoshop-google-maps-tile-cutter/">photoshop-google-maps-tile-cutter</a>
 			<br>
 			Please don't re-publish as is. However you can share, modify and use this any way you want!<br>
@@ -122,40 +122,10 @@ map = new google.maps.Map(document.getElementById('map'), myOptions);
 map.mapTypes.set('gta_satellite', satellite);
 map.mapTypes.set('gta_roadmap', roadmap);
 map.mapTypes.set('gta_atlas', atlas);
+// sets default 'startup' map
 map.setMapTypeId('gta_satellite');
 
-
-</script>
-
-<script>
-/*
-// Add map makers!
-var contentString = '<div id="content">'+
-  '<div id="marker_infobox">'+
-  'this is a test'+
-  '</div>'+
-  '</div>';
-  
-var infowindow = new google.maps.InfoWindow({
-	content: contentString
-});
-
-var myLatlng = new google.maps.LatLng(0.0,0.0);
-
-var marker = new google.maps.Marker({
-	position: myLatlng,
-	map: map,
-	title:"Hello World!",
-	optimized: false
-});
-
-google.maps.event.addListener(marker, 'click', function() {
-	infowindow.open(map,marker);
-});
-*/
-</script>
-<script>
-// Sets the map on all markers in the array.
+	// Sets the map on all markers in the array.
 	function setAllMap(map) {
 	  for (var i = 0; i < static_markers.length; i++) {
 		static_markers[i].setMap(map);
@@ -173,19 +143,12 @@ google.maps.event.addListener(marker, 'click', function() {
 	}
 	
 window.onload = function() { //make sure we start adding AFTER everythingthing else has loaded...
-	// Add map makers!
-	// marker types: static_markers
-	
 	
 	var contentString = '<div id="content">'+
 	  '<div id="marker_infobox">'+
 	  'this is a test'+
 	  '</div>'+
 	  '</div>';
-	/*  
-	var infowindow = new google.maps.InfoWindow({
-		content: contentString
-	});*/
 	
 	function addMarker(location, type, content_html, icon) {
 	  var marker = new google.maps.Marker({
@@ -208,10 +171,6 @@ window.onload = function() { //make sure we start adding AFTER everythingthing e
 	//add markers test.
 	addMarker(new google.maps.LatLng(-62.7,-1.2), "static", 'Bus Station', '2hand');
 	addMarker(new google.maps.LatLng(-66.1,-6.1), "static", 'ATM', '2hand');
-	/*
-	google.maps.event.addListener(marker, 'click', function() {
-		infowindow.open(map,marker);
-	});*/
 	
 	google.maps.event.addListener(map, 'mousemove', function(event) {
           document.getElementById('panel').innerHTML =
