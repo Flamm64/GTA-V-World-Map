@@ -10,10 +10,6 @@ span.loading {
 	text-align: center;
 	font: 300 italic 72px/400px "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
 }
-
-#branding {
-	max-height:45px; 
-}
 </style>
 
 <div id="category_1" class="category_block block_wrap">
@@ -125,22 +121,22 @@ map.mapTypes.set('gta_atlas', atlas);
 // sets default 'startup' map
 map.setMapTypeId('gta_satellite');
 
-	// Sets the map on all markers in the array.
-	function setAllMap(map) {
-	  for (var i = 0; i < static_markers.length; i++) {
-		static_markers[i].setMap(map);
-	  }
-	}
+// Sets the map on all markers in the array.
+function setAllMap(map) {
+  for (var i = 0; i < static_markers.length; i++) {
+	static_markers[i].setMap(map);
+  }
+}
 	
-	// Removes the markers from the map, but keeps them in the array.
-	function clearMarkers() {
-	  setAllMap(null);
-	}
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers() {
+  setAllMap(null);
+}
 	
-	// Shows any markers currently in the array.
-	function showMarkers() {
-	  setAllMap(map);
-	}
+// Shows any markers currently in the array.
+function showMarkers() {
+  setAllMap(map);
+}
 	
 window.onload = function() { //make sure we start adding AFTER everythingthing else has loaded...
 	
