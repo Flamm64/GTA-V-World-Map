@@ -20,7 +20,7 @@ span.loading {
 			Please don't re-publish as is. However you can share, modify and use this any way you want!<br>
 			Give credits if you feel like it :P Altho not required to!
 			<br><br>
-        	<img src="2hand.png">
+        	<img src="map_marker.png">
             <input onclick="clearMarkers();" type=button value="Hide Markers">
       		<input onclick="showMarkers();" type=button value="Show All Markers">
         </div>
@@ -165,8 +165,8 @@ window.onload = function() { //make sure we start adding AFTER everythingthing e
 	} 
 	 
 	//add markers test.
-	addMarker(new google.maps.LatLng(-62.7,-1.2), "static", 'Bus Station', '2hand');
-	addMarker(new google.maps.LatLng(-66.1,-6.1), "static", 'ATM', '2hand');
+	addMarker(new google.maps.LatLng(-62.7,-1.2), "static", 'Bus Station', 'map_marker');
+	addMarker(new google.maps.LatLng(-66.1,-6.1), "static", 'ATM', 'map_marker');
 	
 	google.maps.event.addListener(map, 'mousemove', function(event) {
           document.getElementById('panel').innerHTML =
