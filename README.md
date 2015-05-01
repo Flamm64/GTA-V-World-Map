@@ -1,6 +1,8 @@
 # GTA-V-World-Map
 GTA V World Map, Originally shared on gta-mp.net
 
+Update: map tiles are now compressed, view folders 'Atlas','Roadmap' and 'Satellite'
+
 Grand Theft Auto V World Map
 Based on Google Maps API, By Zslash aKa Martin Floden
 
