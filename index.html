@@ -1,4 +1,11 @@
 <style>	
+body, html {
+	padding:0px;
+	margin:0px;
+	
+	background: url(bg.jpg) 50% 50% / cover no-repeat fixed rgb(0, 0, 0);
+}
+
 #map {
 	width:1126.69px;
 	height:600px;
@@ -11,27 +18,42 @@ span.loading {
 	text-align: center;
 	font: 300 italic 72px/400px "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
 }
+.sweetfx {
+	margin:10px;
+	padding:0px 20px 0px 20px;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+.sweetxt {
+	color:#FFF;
+	font-size:13px;
+}
+.sweetxt a {
+	color:#FFF;
+	font-style:italic;
+}
 </style>
 
 <div id="category_1" class="category_block block_wrap">
-	<div class="border"><h3 class="maintitle" style="padding:5px;">
-		<div>
-			GTA V World Map created by Zslash aKa Martin Floden - <a href="http://www.lifeinsanandreas.com">www.lifeinsanandreas.com</a> All maps rendered in 20K res using <a href="https://github.com/bramus/photoshop-google-maps-tile-cutter/">photoshop-google-maps-tile-cutter</a>
-			<br>
-			Please don't re-publish as is. However you can share, modify and use this any way you want!<br>
+	<div class="border">
+		<div class="sweetfx sweetxt">
+        	<div align="center"><img src="logo.png"></div>
+			All maps rendered in 20K res using <a href="https://github.com/bramus/photoshop-google-maps-tile-cutter/">photoshop-google-maps-tile-cutter</a>
+			Please don't re-publish as is. However you can share, modify and use this any way you want!
 			Give credits if you feel like it :P Altho not required to!
-			<br><br>
-        	<img src="red-dot.png">
-            <input onclick="clearMarkers();" type=button value="Hide Markers">
-      		<input onclick="showMarkers();" type=button value="Show All Markers">
+			<br>
+            <div align="center">
+        		<img src="red-dot.png">
+            	<input onclick="clearMarkers();" type=button value="Hide Markers">
+      			<input onclick="showMarkers();" type=button value="Show All Markers">
+                <img src="yellow-dot.png"><br><br>
+            </div>
         </div>
-        <div id="panel">Loading... Please Wait!</div>
-        </h3>
-        <div class="ipsBox table_wrap removeDefault">
-			<div class="ipsBox_container" style="padding:10px;">
-        		<div id="map"><span class="loading">loading tiles...</span></div>
-           </div>
-       </div> 
+		<div class="sweetfx">
+        	<div id="panel" class="sweetxt" align="center">Loading... Please Wait!</div>
+			<div id="map"><span class="loading">loading tiles...</span></div>
+            <div align="center" class="sweetxt">Map by: Zslash aka Martin Floden - <a href="http://www.lifeinsanandreas.com" target="new">LifeinSanAndreas.com</a> - 
+            <a href="http://www.martinfloden.no" target="new">MartinFloden.no</a></div>
+		</div>
 	</div>
 </div>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
