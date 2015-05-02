@@ -1,9 +1,10 @@
 <style>	
 #map {
-	width:100%;
-	height:750px;
-	color: #CCC;
+	width:1126.69px;
+	height:600px;
+	color: #000;
 	background: #EFEFEF;
+	margin:0 auto;
 }
 span.loading {
 	display: block;
@@ -20,7 +21,7 @@ span.loading {
 			Please don't re-publish as is. However you can share, modify and use this any way you want!<br>
 			Give credits if you feel like it :P Altho not required to!
 			<br><br>
-        	<img src="map_marker.png">
+        	<img src="red-dot.png">
             <input onclick="clearMarkers();" type=button value="Hide Markers">
       		<input onclick="showMarkers();" type=button value="Show All Markers">
         </div>
@@ -72,6 +73,8 @@ var satellite = new google.maps.ImageMapType({
 	},
 	tileSize: new google.maps.Size(256, 256),
 	maxZoom: 7,
+	minZoom:2,
+    zoom:2,
 	name: 'Satellite'
 });
 var roadmap = new google.maps.ImageMapType({
@@ -85,6 +88,8 @@ var roadmap = new google.maps.ImageMapType({
 	},
 	tileSize: new google.maps.Size(256, 256),
 	maxZoom: 7,
+	minZoom:2,
+    zoom:2,
 	name: 'Roadmap'
 });
 var atlas = new google.maps.ImageMapType({
@@ -98,6 +103,8 @@ var atlas = new google.maps.ImageMapType({
 	},
 	tileSize: new google.maps.Size(256, 256),
 	maxZoom: 7,
+	minZoom:2,
+    zoom:2,
 	name: 'Atlas'
 });
 
@@ -121,6 +128,10 @@ map.mapTypes.set('gta_atlas', atlas);
 // sets default 'startup' map
 map.setMapTypeId('gta_satellite');
 
+var overlay = new google.maps.OverlayView();
+overlay.draw = function() {};
+overlay.setMap(map);
+
 // Sets the map on all markers in the array.
 function setAllMap(map) {
   for (var i = 0; i < static_markers.length; i++) {
@@ -138,15 +149,37 @@ function showMarkers() {
   setAllMap(map);
 }
 	
-window.onload = function() { //make sure we start adding AFTER everythingthing else has loaded...
-	
 	var contentString = '<div id="content">'+
 	  '<div id="marker_infobox">'+
 	  'this is a test'+
 	  '</div>'+
 	  '</div>';
 	
-	function addMarker(location, type, content_html, icon) {
+	function gtamp2googlepx(x,y) {
+		// IMPORTANT
+		// for this to work #map must be width:1126.69px; height:600px;
+		// you can change this AFTER all markers are placed...
+		//--------------------------------------
+		//conversion increment from x,y to px,py
+		var mx = 0.05030;
+		var my = -0.05030; //-0.05003
+		//math mVAR * cVAR
+		var x = mx * x;
+		var y = my * y;
+		//offset for correction
+		var x = x -486.97;
+		var y = y +408.9;
+		//return latlong coordinates
+		return pixelLatLng = overlay.getProjection().fromContainerPixelToLatLng(new google.maps.Point(x,y));
+	}
+	
+	function addMarker(x,y, type, content_html, icon, ig) {
+	  if(ig) {
+			//to ingame 2 google coords here, use function.
+			var location = gtamp2googlepx(x,y);
+		} else {
+			var location = new google.maps.LatLng(x,y);
+		}
 	  var marker = new google.maps.Marker({
 		position: location,
 		map: map,
@@ -158,19 +191,27 @@ window.onload = function() { //make sure we start adding AFTER everythingthing e
 		var infowindow = new google.maps.InfoWindow({
 			content: content_html
 		});
-		
+		//when you click anywhere on the map, close all open windows...
 		google.maps.event.addListener(marker, 'click', function() {
 			infowindow.open(map,marker);
+			
+			google.maps.event.addListener(map, 'click', function() {
+				infowindow.close();
+            });
 		});
 	} 
 	 
-	//add markers test.
-	addMarker(new google.maps.LatLng(-62.7,-1.2), "static", 'Bus Station', 'map_marker');
-	addMarker(new google.maps.LatLng(-66.1,-6.1), "static", 'ATM', 'map_marker');
+	google.maps.event.addListenerOnce(map, 'idle', function(){
+		addMarker(-62.7,-1.2, "static", 'test1<br><b>LatLong Coordinates', 'red-dot');
+		addMarker(-66.1,-6.1, "static", 'test2<br><b>LatLong Coordinates', 'red-dot');
+		
+		addMarker(8.70,540.32, "static", 'Franklins Front Door<br><b>Actual In-Game Coordinates', 'yellow-dot', true);
+		addMarker(-818.96,177.56, "static", 'Michaels Front Door<br><b>Actual In-Game Coordinates', 'yellow-dot', true);
+		addMarker(1937.32,3889.64, "static", 'trevors old shack<br><b>Actual In-Game Coordinates', 'yellow-dot', true);
+	});
 	
 	google.maps.event.addListener(map, 'mousemove', function(event) {
           document.getElementById('panel').innerHTML =
              'DEBUG: Geographical Coordinates: ' + event.latLng.lat() + ', ' + event.latLng.lng();
       });
-}
 </script>
