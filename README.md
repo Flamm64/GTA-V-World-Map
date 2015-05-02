@@ -1,6 +1,7 @@
 # GTA-V-World-Map
 GTA V World Map, Originally shared on gta-mp.net
 
+Update2: Now support for In-Game Coordinates auto converted to LatLong. Copy paste ingame coordinates and it just works!
 Update: map tiles are now compressed, view folders 'Atlas','Roadmap' and 'Satellite'
 
 Grand Theft Auto V World Map
