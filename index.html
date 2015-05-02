@@ -189,7 +189,7 @@ function showMarkers() {
 	  if(type == "static") { static_markers.push(marker); }
 	  	
 		var infowindow = new google.maps.InfoWindow({
-			content: content_html
+			content: content_html+'<br><br></b>LatLong: '+location
 		});
 		//when you click anywhere on the map, close all open windows...
 		google.maps.event.addListener(marker, 'click', function() {
